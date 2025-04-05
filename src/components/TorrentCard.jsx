@@ -1,3 +1,9 @@
+import "../css/TorrentCard.css"
+import { useState } from "react"
+import { useCursor } from "@react-three/drei";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { IconContext } from "react-icons";
+
 function TorrentCard({ torrent }) {
     function expandTorrent() {
         alert("clicked")
@@ -7,20 +13,28 @@ function TorrentCard({ torrent }) {
         alert("deleted")
     }
 
+    // Change style of cursor depending on fact if user is hovering over torrent card or not
+    const [hovered, setHovered] = useState(false)
+    useCursor(hovered)
+
     return (
-        <div className="torrent-card">
+        <div className="torrent-card"
+            onPointerOver={() => setHovered(true)}
+            onPointerOut={() => setHovered(false)}>
             <div className="torrent-box" onClick={expandTorrent}>
                 <div className="torrent-name">
                     <h2>{torrent.title}</h2>
                 </div>
                 <div className="torrent-info">
-                    <p>{torrent.dateAdded}</p>
-                    <p>{torrent.dateCached}</p>
-                    <p>{torrent.size}</p>
+                    <p>Date added: <strong>{torrent.dateAdded}</strong></p>
+                    <p>Date cached: <strong>{torrent.dateCached}</strong></p>
+                    <p>Size: <strong>{torrent.size}</strong></p>
                 </div>
             </div>
             <div className="torrent-delete-button" onClick={deleteTorrent}>
-                🗑
+                <IconContext.Provider value={{ color: "white", size: "1.7em" }}>
+                    <div><FaRegTrashAlt /></div>
+                </IconContext.Provider>
             </div>
         </div>
     );

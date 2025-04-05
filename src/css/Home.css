@@ -1,0 +1,9 @@
+.torrents-list{
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    max-height: 80vh;
+    margin-top: 2em;
+    padding: 2em;
+}

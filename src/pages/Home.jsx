@@ -1,4 +1,5 @@
 import TorrentCard from "../components/TorrentCard"
+import "../css/Home.css"
 import { useState } from "react"
 
 function Home() {
@@ -21,7 +22,7 @@ function Home() {
         },
         {
             id: 2,
-            title: "Spider-Man Part 2",
+            title: "Spider-Man Part 2 Spider-Man Part 2 Spider-Man Part 2 Spider-Man Part 2 White Lotus S03 Spider-Man Part 2 Spider-Man Part 2 White Lotus S03 White Lotus S03 ",
             dateAdded: "02.01.2025",
             dateCached: "01.01.2025",
             size: "33KB",
@@ -57,7 +58,6 @@ function Home() {
                     value={searchQuerry}
                     onChange={(e) => setSearchQuerry(e.target.value)}
                 />
-                <button type="submit" className="torrent-search-button">Search</button>
             </form>
 
             <div className="torrents-list">
