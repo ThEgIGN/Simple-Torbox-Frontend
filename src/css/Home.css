@@ -1,4 +1,4 @@
-.torrents-list{
+.torrents-list {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
