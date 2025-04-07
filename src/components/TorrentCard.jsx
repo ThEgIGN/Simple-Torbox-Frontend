@@ -23,11 +23,11 @@ function TorrentCard({ torrent }) {
             onPointerOut={() => setHovered(false)}>
             <div className="torrent-box" onClick={expandTorrent}>
                 <div className="torrent-name">
-                    <h2>{torrent.title}</h2>
+                    <h2>{torrent.name}</h2>
                 </div>
                 <div className="torrent-info">
-                    <p>Date added: <strong>{torrent.dateAdded}</strong></p>
-                    <p>Date cached: <strong>{torrent.dateCached}</strong></p>
+                    <p>Date added: <strong>{torrent.updated_at}</strong></p>
+                    <p>Date cached: <strong>{torrent?.cached_at}</strong></p>
                     <p>Size: <strong>{torrent.size}</strong></p>
                 </div>
             </div>

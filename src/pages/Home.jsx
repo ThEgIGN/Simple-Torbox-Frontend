@@ -1,47 +1,33 @@
 import TorrentCard from "../components/TorrentCard"
 import "../css/Home.css"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useNavigate, useLocation } from "react-router-dom";
+import fetchTorrents from "../hooks/useDownloads";
+import { PacmanLoader } from "react-spinners";
 
 function Home() {
-    const [searchQuerry, setSearchQuerry] = useState("")
+    const [searchQuerry, setSearchQuerry] = useState("");
 
-    const torrents = [
-        {
-            id: 0,
-            title: "Mama Mia",
-            dateAdded: "04.04.2025",
-            dateCached: "04.03.2025",
-            size: "2KB",
-        },
-        {
-            id: 1,
-            title: "John Wick",
-            dateAdded: "03.04.2025",
-            dateCached: "04.03.2025",
-            size: "5KB",
-        },
-        {
-            id: 2,
-            title: "Spider-Man Part 2 Spider-Man Part 2 Spider-Man Part 2 Spider-Man Part 2 White Lotus S03 Spider-Man Part 2 Spider-Man Part 2 White Lotus S03 White Lotus S03 ",
-            dateAdded: "02.01.2025",
-            dateCached: "01.01.2025",
-            size: "33KB",
-        },
-        {
-            id: 3,
-            title: "White Lotus S03",
-            dateAdded: "02.02.2025",
-            dateCached: "31.11.2024",
-            size: "122KB",
-        },
-        {
-            id: 4,
-            title: "True Detective S01",
-            dateAdded: "17.02.2025",
-            dateCached: "12.12.2024",
-            size: "1666KB",
-        },
-    ]
+    const navigate = useNavigate();
+    const { state } = useLocation();
+    const { stateApiKey } = state;
+
+    // If user was directed to this page from login, grab API key from state
+    const [apiKey, setApiKey] = useState(stateApiKey === null ? "" : stateApiKey);
+
+    const { torrents, isLoading, isError } = fetchTorrents(apiKey);
+
+    useEffect(() => {
+        // If user opened dashboard directly, try to get API key from storage
+        if (!apiKey) {
+            const storedKey = localStorage.getItem("torboxApiKey");
+            if (storedKey) {
+                setApiKey(storedKey);
+            } else {
+                navigate("/");
+            }
+        }
+    }, [])
 
     const handleTorrentSearch = (e) => {
         // Stops page from refreshing after every search
@@ -54,16 +40,16 @@ function Home() {
                 <input
                     type="text"
                     placeholder="Search for your torrents..."
-                    className="torrent-search-input"
+                    className="text-input"
                     value={searchQuerry}
                     onChange={(e) => setSearchQuerry(e.target.value)}
                 />
             </form>
-
+            <PacmanLoader loading={isLoading} />
             <div className="torrents-list">
-                {torrents.map((torrent) =>
+                {!isError && torrents && torrents?.data.map((torrent) =>
                     // Only show torrents that contain current search input
-                    torrent.title.toLowerCase().includes(searchQuerry) &&
+                    torrent.name.toLowerCase().includes(searchQuerry) &&
                     <TorrentCard torrent={torrent} key={torrent.id} />
                 )}
             </div>
