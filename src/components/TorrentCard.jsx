@@ -1,6 +1,4 @@
 import "../css/TorrentCard.css"
-import { useState } from "react"
-import { useCursor } from "@react-three/drei";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { IconContext } from "react-icons";
 
@@ -13,14 +11,8 @@ function TorrentCard({ torrent }) {
         alert("deleted")
     }
 
-    // Change style of cursor depending on fact if user is hovering over torrent card or not
-    const [hovered, setHovered] = useState(false)
-    useCursor(hovered)
-
     return (
-        <div className="torrent-card"
-            onPointerOver={() => setHovered(true)}
-            onPointerOut={() => setHovered(false)}>
+        <div className="torrent-card">
             <div className="torrent-box" onClick={expandTorrent}>
                 <div className="torrent-name">
                     <h2>{torrent.name}</h2>
