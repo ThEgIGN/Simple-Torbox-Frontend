@@ -12,6 +12,7 @@
     margin-top: 0.25em;
     margin-bottom: 0.25em;
     padding: 0em;
+    cursor: pointer;
 }
 
 .torrent-box {

@@ -7,7 +7,7 @@ const usePasswordToggle = () => {
 
     const Icon = (
         <FontAwesomeIcon
-            icon={visible ? "eye-slash" : "eye"}
+            icon={visible ? "eye" : "eye-slash"}
             onClick={() => setVisible((visible) => !visible)}
         />
     );

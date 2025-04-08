@@ -5,10 +5,12 @@ import AddTorrent from "./pages/AddTorrent";
 import NavBar from "./components/NavBar";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
+import { Toaster } from 'sonner'
 
 function App() {
   return (
     <div>
+      <Toaster theme="dark" position="bottom-center" />
       <NavBar />
       <main className="main-content">
         <Routes>
