@@ -1,0 +1,81 @@
+.file-wrapper {
+    width: 95%;
+    margin-left: 2.5em;
+}
+
+.file-card {
+    opacity: 0;
+    overflow: visible;
+    background-color: #414040;
+    display: flex;
+    justify-content: space-around;
+    border-radius: 0.5em;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0em;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    padding: 0em;
+    cursor: pointer;
+    animation-duration: 0.25s;
+    animation-delay: calc(var(--n)*0.05s);
+    animation-name: changeOpacity;
+    animation-fill-mode: both;
+}
+
+@keyframes changeOpacity {
+    100% {
+        opacity: 1;
+    }
+}
+
+.file-box {
+    flex: 1 1 90%;
+    padding: 0em;
+    display: flex;
+    flex-direction: column;
+}
+
+.file-name {
+    text-align: left;
+    padding-left: 1em;
+    padding: 0em;
+}
+
+.file-name h3 {
+    padding: 0;
+    padding-left: 0.5em;
+    margin: 0;
+    margin-top: 0.5em;
+}
+
+.file-download-button {
+    flex: 1 1 1%;
+    background-color: rgb(101, 121, 200);
+    border-top-right-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-download-button:hover {
+    background-color: rgb(50, 67, 192);
+}
+
+.file-card:hover {
+    transform: scale(1.01);
+    filter: drop-shadow(0 0 0.75rem rgb(27, 20, 220));
+}
+
+.file-info {
+    display: flex;
+    float: left;
+}
+
+.file-info p {
+    margin: 1em;
+    font-size: small;
+}
