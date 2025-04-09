@@ -2,7 +2,7 @@ import TorrentCard from "../components/TorrentCard"
 import "../css/Home.css"
 import { useEffect, useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom";
-import fetchTorrents from "../hooks/useDownloads";
+import fetchTorrents from "../hooks/useFetchTorrents";
 import { PacmanLoader } from "react-spinners";
 import { toast } from 'sonner'
 
@@ -54,7 +54,7 @@ function Home() {
                 {!isError && torrents && torrents?.data.map((torrent) =>
                     // Only show torrents that contain current search input
                     torrent.name.toLowerCase().includes(searchQuerry) &&
-                    <TorrentCard torrent={torrent} key={torrent.id} />
+                    <TorrentCard apiKey={apiKey} torrent={torrent} key={torrent.id} />
                 )}
             </div>
         </div>

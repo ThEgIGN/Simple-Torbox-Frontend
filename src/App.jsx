@@ -10,7 +10,7 @@ import { Toaster } from 'sonner'
 function App() {
   return (
     <div>
-      <Toaster theme="dark" position="bottom-center" />
+      <Toaster theme="dark" position="bottom-center" richColors/>
       <NavBar />
       <main className="main-content">
         <Routes>

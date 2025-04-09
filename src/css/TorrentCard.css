@@ -1,3 +1,7 @@
+.torrent-wrapper {
+    display: grid;
+}
+
 .torrent-card {
     overflow: visible;
     background-color: #414040;
@@ -13,6 +17,34 @@
     margin-bottom: 0.25em;
     padding: 0em;
     cursor: pointer;
+}
+
+.torrent-card-inactive {
+    filter: brightness(50%);
+    overflow: visible;
+    background-color: #414040;
+    display: flex;
+    justify-content: space-around;
+    border-radius: 0.5em;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0em;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    padding: 0em;
+    cursor: pointer;
+}
+
+.torrent-card:hover {
+    transform: scale(1.01);
+    filter: drop-shadow(0 0 0.75rem crimson);
+}
+
+.torrent-card-inactive:hover {
+    transform: scale(1.01);
+    filter: drop-shadow(0 0 0.75rem crimson) brightness(50%);
 }
 
 .torrent-box {
@@ -49,11 +81,6 @@
     background-color: rgb(192, 50, 50);
 }
 
-.torrent-card:hover {
-    transform: scale(1.01);
-    filter: drop-shadow(0 0 0.75rem crimson);
-}
-
 .torrent-info {
     display: flex;
     float: left;
@@ -62,4 +89,16 @@
 .torrent-info p {
     margin: 1em;
     font-size: small;
+}
+
+.torrent-availability {
+    display: flex;
+    float: right;
+}
+
+.torrent-availability p {
+    margin-right: 1em;
+    padding: 0.5em;
+    font-size: small;
+    border-radius: 10px;
 }
