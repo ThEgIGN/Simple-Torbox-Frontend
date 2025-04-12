@@ -65,6 +65,18 @@
     background-color: rgb(50, 67, 192);
 }
 
+.file-copy-button {
+    flex: 1 1 1%;
+    background-color: rgb(101, 200, 113);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-copy-button:hover {
+    background-color: rgb(29, 189, 34);
+}
+
 .file-card:hover {
     transform: scale(1.01);
     filter: drop-shadow(0 0 0.75rem rgb(27, 20, 220));
