@@ -48,21 +48,38 @@
 }
 
 .torrent-box {
-    flex: 1 1 90%;
+    flex: 1 1 93%;
     padding: 0em;
     display: flex;
     flex-direction: column;
+}
+
+.torrent-box-downloading {
+    flex: 1 1 93%;
+    padding: 0em;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 3px solid transparent;
+    border-image: linear-gradient(to right, #25b04f var(--n), transparent var(--n));
+    border-image-slice: 1;
+}
+
+.torrent-availability-and-name {
+    display: flex;
+    justify-content: space-between;
 }
 
 .torrent-name {
     text-align: left;
     padding-left: 1em;
     padding: 0em;
+    word-break: break-word;
 }
 
 .torrent-name h2 {
     padding: 0;
     padding-left: 0.5em;
+    padding-right: 0.5em;
     margin: 0;
     margin-top: 0.5em;
 }
@@ -83,7 +100,8 @@
 
 .torrent-info {
     display: flex;
-    float: left;
+    justify-content: flex-start;
+    word-break: break-word;
 }
 
 .torrent-info p {
@@ -91,14 +109,17 @@
     font-size: small;
 }
 
-.torrent-availability {
-    display: flex;
-    float: right;
-}
-
 .torrent-availability p {
+    margin: 0;
+    margin-top: 1em;
     margin-right: 1em;
     padding: 0.5em;
     font-size: small;
     border-radius: 10px;
+}
+
+.torrent-files {
+    max-height: 40vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }

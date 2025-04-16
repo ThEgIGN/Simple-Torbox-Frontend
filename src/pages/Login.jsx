@@ -24,22 +24,26 @@ function Login() {
     }
 
     return (
-        <div className="login">
-            <h1>Torbox Simple Frontend</h1>
-            <form onSubmit={handleLogin} className="login-form">
-                <div className="text-input">
-                    <input
-                        type={PasswordInputType}
-                        placeholder="Enter your API key..."
-                        onChange={(e) => setApiKey(e.target.value)}
-                        required={true}
-                    />
-                    <span className="password-toggle-icon">{ToggleIcon}</span>
+        <div className="login-outer-wrapper">
+            <div className="login-wrapper">
+                <div className="login">
+                    <h1>Torbox Simple Frontend</h1>
+                    <form onSubmit={handleLogin} className="login-form">
+                        <div className="text-input">
+                            <input
+                                type={PasswordInputType}
+                                placeholder="Enter your API key..."
+                                onChange={(e) => setApiKey(e.target.value)}
+                                required={true}
+                            />
+                            <div className="password-toggle-icon">{ToggleIcon}</div>
+                        </div>
+                        <div className="button-wrapper"><button type="submit" className="submit-button">Login</button></div>
+                    </form>
+                    <div className="api-key-help">
+                        <p>Don't know where to find your API key? <a href="https://torbox.app/settings">Look here!</a></p>
+                    </div>
                 </div>
-                <div className="button-wrapper"><button type="submit" className="submit-button">Login</button></div>
-            </form>
-            <div className="api-key-help">
-                    <p>Don't know where to find your API key? <a href="https://torbox.app/settings">Look here!</a></p>
             </div>
         </div>
     )

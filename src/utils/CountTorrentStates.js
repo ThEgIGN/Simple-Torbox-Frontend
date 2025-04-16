@@ -1,17 +1,17 @@
 function countTorrentStates(torrents) {
-    let activeTorrents = 0,
-        cachedTorrents = 0,
-        inactiveTorrents = 0;
+    let active = 0,
+        cached = 0,
+        inactive = 0;
     torrents.forEach((torrent) => {
         if (!!torrent.active) {
-            activeTorrents++;
+            active++;
         } else if (!!torrent.cached) {
-            cachedTorrents++;
+            cached++;
         } else {
-            inactiveTorrents++;
+            inactive++;
         }
     });
-    return { activeTorrents, cachedTorrents, inactiveTorrents };
+    return { active, cached, inactive };
 }
 
 export default countTorrentStates;

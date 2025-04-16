@@ -7,20 +7,32 @@ import { PacmanLoader } from "react-spinners";
 import { toast } from 'sonner';
 import countTorrentStates from "../utils/CountTorrentStates";
 import chooseSortComparator from "../utils/ChooseSortComparator";
+import { DASHBOARD_UPDATE_DELAY_IN_SECONDS } from "../constants/constants";
+import { DateTime } from "luxon";
+import NavBar from "../components/navigation/NavBar";
 
 function Home() {
     const [searchQuerry, setSearchQuerry] = useState("");
     // Keep copy of torrents for sorting, deleting etc...
     const [localTorrents, setLocalTorrents] = useState(null);
 
+    const [activeTorrents, setActiveTorrents] = useState(0);
+    const [cachedTorrents, setCachedTorrents] = useState(0);
+    const [inactiveTorrents, setInactiveTorrents] = useState(0);
+
+    const [lastUpdate, setLastUpdate] = useState("");
+    const [timerActive, setTimerActive] = useState(false);
+
     const navigate = useNavigate();
     const location = useLocation();
     const stateApiKey = location?.state?.stateApiKey;
+    const torrentAdded = location?.state?.torrentAdded;
 
     // If user was directed to this page from login, grab API key from state
     const [apiKey, setApiKey] = useState(stateApiKey === null ? "" : stateApiKey);
 
-    const { torrents, isLoading, isError, mutate } = useFetchTorrents(apiKey, false);
+    // If user was redirected to this page and torrent was added, fetch torrents with bypass_cache = true
+    const { torrents, isLoading, isError, mutate } = useFetchTorrents(apiKey, !!torrentAdded);
 
     useEffect(() => {
         // If user opened dashboard directly, try to get API key from storage
@@ -38,15 +50,35 @@ function Home() {
         // Immediately remove torrent from users dashboard before API call
         setLocalTorrents(localTorrents.filter((t) => t.id !== torrentId));
         // Mutate torrents with bypass_cache=true to get fresh data
-        mutate();
+        await mutate();
+        setLastUpdate(DateTime.now().toFormat("HH:mm:ss"));
     }
 
     useEffect(() => {
         if (torrents && torrents?.data) {
             sortTorrents(true);
-            const { activeTorrents, cachedTorrents, inactiveTorrents } = countTorrentStates(torrents.data);
+            const { active, cached, inactive } = countTorrentStates(torrents.data);
+            setActiveTorrents(active);
+            setCachedTorrents(cached);
+            setInactiveTorrents(inactive);
+            setLastUpdate(DateTime.now().toFormat("HH:mm:ss"));
         }
     }, [torrents])
+
+    const waitInSeconds = secs => new Promise(resolve => setTimeout(resolve, secs * 1000));
+
+    async function updateDashboardAfterDelay() {
+        setTimerActive(true);
+        await waitInSeconds(DASHBOARD_UPDATE_DELAY_IN_SECONDS);
+        //await mutate();
+        setLastUpdate(DateTime.now().toFormat("HH:mm:ss"));
+        setTimerActive(false);
+    }
+
+    useEffect(() => {
+        // Only start timer if there are active torrents to update data for
+        //!timerActive && activeTorrents > 0 && updateDashboardAfterDelay();
+    }, [activeTorrents, timerActive])
 
     const handleTorrentSearch = (e) => {
         // Stops page from refreshing after every search
@@ -67,10 +99,13 @@ function Home() {
 
     return (
         <div className="home">
-            <button onClick={() => changeSort("torrentNameAscending")}>sortA</button>
-            <button onClick={() => changeSort("torrentNameDescending")}>sortD</button>
+            <NavBar />
+            <p>{`${activeTorrents} ${cachedTorrents} ${inactiveTorrents} ${lastUpdate}`}</p>
+            <button onClick={() => changeSort("dateAddedAscending")}>sortA</button>
+            <button onClick={() => changeSort("sss")}>sortD</button>
             <form onSubmit={handleTorrentSearch} className="torrent-search-form">
                 <input
+                    style={{ width: "90%" }}
                     type="text"
                     placeholder="Search for your torrents..."
                     className="text-input"
