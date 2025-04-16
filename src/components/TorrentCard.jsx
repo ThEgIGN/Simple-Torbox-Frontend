@@ -3,11 +3,10 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { useState } from "react";
 import TorrentFileCard from "./TorrentFileCard";
-import formatFileSize from "../utils/FormatFileSize";
-import formatDate from "../utils/FormatDate";
 import formatDownloadState from "../utils/formatDownloadState";
 import useDeleteTorrent from "../hooks/useDeleteTorrent";
 import { toast } from "sonner";
+import formatTorrentInfo from "../utils/FormatTorrentInfo";
 
 function TorrentCard({ apiKey, torrent, onDelete }) {
     const [showTorrentFiles, setShowTorrentFiles] = useState(false);
@@ -45,21 +44,20 @@ function TorrentCard({ apiKey, torrent, onDelete }) {
 
     return (
         <div className="torrent-wrapper">
-            <div className={!!torrent.active || !!torrent.cached ? "torrent-card" : "torrent-card-inactive"}>
-                <div className="torrent-box" onClick={expandTorrent}>
-                    <div className="torrent-name">
-                        <h2>{torrent.name}</h2>
-                    </div>
-                    <div>
-                        <span className="torrent-availability">
+            <div className={!!torrent.active || !!torrent.cached ?
+                "torrent-card" : "torrent-card-inactive"}>
+                <div className={(!!torrent.active && torrent.progress < 1) ?
+                    "torrent-box-downloading" : "torrent-box"} onClick={expandTorrent}
+                    style={{ "--n": `${Math.round(torrent.progress * 100)}%` }}>
+                    <div className="torrent-availability-and-name">
+                        <div className="torrent-name">
+                            <h2>{torrent.name}</h2>
+                        </div>
+                        <div className="torrent-availability">
                             {formatDownloadState(!!torrent.active, torrent.download_state, !!torrent.cached)}
-                        </span>
-                        <div className="torrent-info">
-                            <p>Date added: <strong>{formatDate(torrent.updated_at)}</strong></p>
-                            {torrent?.cached_at && <p>Date cached: <strong>{formatDate(torrent.cached_at)}</strong></p>}
-                            <p>Size: <strong>{formatFileSize(torrent.size)}</strong></p>
                         </div>
                     </div>
+                    {formatTorrentInfo(torrent)}
                 </div>
                 <div className="torrent-delete-button" onClick={deleteTorrentHelper}>
                     <IconContext.Provider value={{ color: "white", size: "1.7em" }}>

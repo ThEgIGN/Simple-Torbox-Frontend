@@ -1,19 +1,10 @@
 function formatFileSize(bytes, decimals = 2) {
     if (!+bytes) return "0 Bytes";
+    if (bytes < 0) return "";
 
     const k = 1000;
     const dm = decimals < 0 ? 0 : decimals;
-    const sizes = [
-        "Bytes",
-        "KB",
-        "MB",
-        "GB",
-        "TB",
-        "PB",
-        "EB",
-        "ZB",
-        "YB",
-    ];
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
     const i = Math.floor(Math.log(bytes) / Math.log(k));
 
