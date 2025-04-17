@@ -12,7 +12,7 @@ function NavItem(props) {
         // If user clicks on button, open/close dropdown menu
         // If user clicks outside of dropdown menu, close it
         const handler = (e) => {
-            if (!dropdownRef.current || !buttonRef) return;
+            if (!dropdownRef.current || !buttonRef.current) return;
             if (buttonRef.current.contains(e.target)) return;
             if (!dropdownRef.current.contains(e.target)) setOpen(false);
         }

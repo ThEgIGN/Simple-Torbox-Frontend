@@ -10,6 +10,7 @@ import chooseSortComparator from "../utils/ChooseSortComparator";
 import { DASHBOARD_UPDATE_DELAY_IN_SECONDS } from "../constants/constants";
 import { DateTime } from "luxon";
 import NavBar from "../components/navigation/NavBar";
+import downloadMagnetLinksToFile from "../utils/DownloadMagnetLinksToFile";
 
 function Home() {
     const [searchQuerry, setSearchQuerry] = useState("");
@@ -26,13 +27,11 @@ function Home() {
     const navigate = useNavigate();
     const location = useLocation();
     const stateApiKey = location?.state?.stateApiKey;
-    const torrentAdded = location?.state?.torrentAdded;
 
     // If user was directed to this page from login, grab API key from state
     const [apiKey, setApiKey] = useState(stateApiKey === null ? "" : stateApiKey);
 
-    // If user was redirected to this page and torrent was added, fetch torrents with bypass_cache = true
-    const { torrents, isLoading, isError, mutate } = useFetchTorrents(apiKey, !!torrentAdded);
+    const { torrents, isLoading, isError, mutate } = useFetchTorrents(apiKey);
 
     useEffect(() => {
         // If user opened dashboard directly, try to get API key from storage
@@ -45,6 +44,10 @@ function Home() {
             }
         }
     }, [])
+
+    function setSearchTerm(searchTerm) {
+        setSearchQuerry(searchTerm);
+    }
 
     async function deleteTorrentFromList(torrentId) {
         // Immediately remove torrent from users dashboard before API call
@@ -80,12 +83,8 @@ function Home() {
         //!timerActive && activeTorrents > 0 && updateDashboardAfterDelay();
     }, [activeTorrents, timerActive])
 
-    const handleTorrentSearch = (e) => {
-        // Stops page from refreshing after every search
-        e.preventDefault()
-    }
-
-    function sortTorrents(firstRender, sortingMethod = "") {
+    function sortTorrents(firstRender = false, sortingMethod = "") {
+        // First sort goes through fresh data fetched from API, every other sort sorts local data
         const sortedTorrents = firstRender ?
             [...torrents.data.sort(chooseSortComparator())] :
             [...localTorrents.sort(chooseSortComparator(sortingMethod))];
@@ -94,25 +93,18 @@ function Home() {
 
     function changeSort(sortingMethod) {
         localStorage.setItem("torrentsSortingMethod", sortingMethod);
-        sortTorrents(false, sortingMethod);
+        sortTorrents(sortingMethod);
+    }
+
+    function downloadMagnetLinks() {
+        downloadMagnetLinksToFile(localTorrents);
     }
 
     return (
         <div className="home">
-            <NavBar />
+            <NavBar onSearch={setSearchTerm} changeSort={changeSort}
+                downloadMagnetLinks={downloadMagnetLinks} />
             <p>{`${activeTorrents} ${cachedTorrents} ${inactiveTorrents} ${lastUpdate}`}</p>
-            <button onClick={() => changeSort("dateAddedAscending")}>sortA</button>
-            <button onClick={() => changeSort("sss")}>sortD</button>
-            <form onSubmit={handleTorrentSearch} className="torrent-search-form">
-                <input
-                    style={{ width: "90%" }}
-                    type="text"
-                    placeholder="Search for your torrents..."
-                    className="text-input"
-                    value={searchQuerry}
-                    onChange={(e) => setSearchQuerry(e.target.value)}
-                />
-            </form>
             <PacmanLoader loading={isLoading} />
             <div>
                 {isError && !!toast.error(isError?.info?.detail ? isError?.info?.detail : "Undefined error")}
@@ -120,7 +112,7 @@ function Home() {
             <div className="torrents-list">
                 {!isError && localTorrents && localTorrents.map((torrent) =>
                     // Only show torrents that contain current search input
-                    torrent.name.toLowerCase().includes(searchQuerry) &&
+                    torrent.name.toLowerCase().includes(searchQuerry.toLowerCase()) &&
                     <TorrentCard apiKey={apiKey} torrent={torrent} onDelete={deleteTorrentFromList} key={torrent.id} />
                 )}
             </div>

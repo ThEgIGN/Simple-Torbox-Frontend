@@ -66,7 +66,8 @@ function TorrentCard({ apiKey, torrent, onDelete }) {
                 </div>
             </div>
             <div className="torrent-files">{showTorrentFiles && torrent?.files.map((file) =>
-                <TorrentFileCard apiKey={apiKey} torrentId={torrent.id} file={file} fileIdSorted={fileIdSorted} key={fileIdSorted++} />
+                <TorrentFileCard apiKey={apiKey} torrentId={torrent.id}
+                    file={file} fileIdSorted={fileIdSorted} key={fileIdSorted++} />
             )}</div>
         </div>
     );
