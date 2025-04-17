@@ -17,27 +17,27 @@ function chooseSortComparator(sortingMethodNavBar = "") {
         // Ignore case during sort
         // All sorting methods use default comparator and one chosen by user
         switch (sortingMethod) {
-            case "torrentNameAscending":
+            case "↑ Torrent Name":
                 userSortComparator = function (a, b) {
                     return collator.compare(a.name, b.name);
                 };
                 break;
-            case "torrentNameDescending":
+            case "↓ Torrent Name":
                 userSortComparator = function (a, b) {
                     return collator.compare(b.name, a.name);
                 };
                 break;
-            case "torrentSizeAscending":
+            case "↑ Torrent Size":
                 userSortComparator = function (a, b) {
                     return a.size - b.size;
                 };
                 break;
-            case "torrentSizeDescending":
+            case "↓ Torrent Size":
                 userSortComparator = function (a, b) {
                     return b.size - a.size;
                 };
                 break;
-            case "dateAddedAscending":
+            case "↑ Date Added":
                 userSortComparator = function (a, b) {
                     return collator.compare(a.created_at, b.created_at);
                 };

@@ -1,0 +1,126 @@
+.search-input-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.search-input {
+    width: 95%;
+    height: 95%;
+    font-size: 15px;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, 0.40);
+    border-radius: 1em;
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.search-input::placeholder {
+    color: rgba(205, 205, 205, 0.87);
+}
+
+.sort-torrents-header {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.sort-torrents-header p {
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.sort-button-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: none;
+    outline: none;
+    border: var(--border-size) solid var(--color);
+    border-radius: 0.5em;
+}
+
+.sort-button-wrapper:hover {
+    scale: 1.02;
+}
+
+.sort-name p {
+    margin: 0;
+    margin-left: 0.5em;
+    padding: 0;
+    font-size: 17px;
+    color: var(--color);
+}
+
+.sort-checkbox {
+    margin: 0;
+    padding: 0;
+    margin-right: 10px;
+    font-size: 17px;
+    color: rgba(220, 20, 60, 1);
+}
+
+.user-info-header {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.user-info-header p {
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+    text-decoration: underline;
+}
+
+.user-info-param {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    padding-top: 5px;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.3);
+}
+
+.user-info-param p {
+    font-size: 18px;
+    padding: 0;
+    margin: 0;
+}
+
+.user-info-button {
+    margin: 0;
+    width: 85%;
+    height: 95%;
+    background: crimson;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, 0.40);
+    border-radius: 1em;
+    cursor: pointer;
+}
+
+.user-info-button:hover {
+    scale: 1.02;
+}
+
+.user-info-button p {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    margin-top: 7px;
+}
