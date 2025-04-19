@@ -1,7 +1,13 @@
 function chooseSortComparator(sortingMethodNavBar = "") {
     // Default comparator arranges torrents in order of: active -> cached -> inactive
     const defaultSortComparator = function (a, b) {
-        return !!b.active - !!a.active || !!b.cached - !!a.cached;
+        // If both torrents are active, immediately leave comparator,
+        // so torrents get sorted by user choice, and not by cached status
+        if (!!b.active && !!a.active) return 0;
+        if (!!b.active) return 1;
+        if (!!a.active) return -1;
+
+        return !!b.cached - !!a.cached;
     };
 
     let userSortComparator;

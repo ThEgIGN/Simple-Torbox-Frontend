@@ -20,7 +20,7 @@ const useFetchUserInfo = async (apiKey) => {
 
         return { success: true, error: null, data: data.data };
     } catch (e) {
-        return { success: false, error: "Unknown error", data: null };
+        return { success: false, error: "Unknown error (Probably CORS)", data: null };
     }
 };
 

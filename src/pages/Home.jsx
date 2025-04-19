@@ -1,6 +1,7 @@
 import TorrentCard from "../components/TorrentCard";
 import "../css/Home.css";
-import { useEffect, useState } from "react";
+import "../css/AddTorrentModal.css";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import useFetchTorrents from "../hooks/useFetchTorrents";
 import { PacmanLoader } from "react-spinners";
@@ -11,6 +12,7 @@ import { DASHBOARD_UPDATE_DELAY_IN_SECONDS } from "../constants/constants";
 import { DateTime } from "luxon";
 import NavBar from "../components/navigation/NavBar";
 import downloadMagnetLinksToFile from "../utils/DownloadMagnetLinksToFile";
+import AddTorrentModal from "../components/AddTorrentModal";
 
 function Home() {
     const [searchQuerry, setSearchQuerry] = useState("");
@@ -23,6 +25,8 @@ function Home() {
 
     const [lastUpdate, setLastUpdate] = useState("");
     const [timerActive, setTimerActive] = useState(false);
+
+    const dialogRef = useRef();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -53,6 +57,10 @@ function Home() {
         // Immediately remove torrent from users dashboard before API call
         setLocalTorrents(localTorrents.filter((t) => t.id !== torrentId));
         // Mutate torrents with bypass_cache=true to get fresh data
+        updateData();
+    }
+
+    async function updateData() {
         await mutate();
         setLastUpdate(DateTime.now().toFormat("HH:mm:ss"));
     }
@@ -73,14 +81,13 @@ function Home() {
     async function updateDashboardAfterDelay() {
         setTimerActive(true);
         await waitInSeconds(DASHBOARD_UPDATE_DELAY_IN_SECONDS);
-        //await mutate();
-        setLastUpdate(DateTime.now().toFormat("HH:mm:ss"));
+        updateData();
         setTimerActive(false);
     }
 
     useEffect(() => {
         // Only start timer if there are active torrents to update data for
-        //!timerActive && activeTorrents > 0 && updateDashboardAfterDelay();
+        !timerActive && activeTorrents > 0 && updateDashboardAfterDelay();
     }, [activeTorrents, timerActive])
 
     function sortTorrents(firstRender = false, sortingMethod = "") {
@@ -100,20 +107,66 @@ function Home() {
         downloadMagnetLinksToFile(localTorrents);
     }
 
+    useEffect(() => {
+        dialogRef.current?.addEventListener("close", closeAddTorrentModal);
+        return () => {
+            dialogRef.current?.removeEventListener("close", closeAddTorrentModal);
+        }
+    }, [dialogRef])
+
+    function showAddTorrentModal() {
+        dialogRef.current?.showModal();
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeAddTorrentModal() {
+        dialogRef.current?.close();
+        document.body.style.overflow = "";
+    }
+
     return (
         <div className="home">
             <NavBar onSearch={setSearchTerm} changeSort={changeSort}
-                downloadMagnetLinks={downloadMagnetLinks} />
-            <p>{`${activeTorrents} ${cachedTorrents} ${inactiveTorrents} ${lastUpdate}`}</p>
-            <PacmanLoader loading={isLoading} />
-            <div>
-                {isError && !!toast.error(isError?.info?.detail ? isError?.info?.detail : "Undefined error")}
-            </div>
+                downloadMagnetLinks={downloadMagnetLinks}
+                showAddTorrentModal={showAddTorrentModal} />
+            {!isLoading && <div className="home-dashboard-info-wrapper">
+                <div className="home-torrents-info-wrapper">
+                    <div className="home-torrents-info">
+                        <p style={{ color: "cornflowerblue", marginLeft: "2em" }}>
+                            <strong>{activeTorrents}</strong>
+                        </p>
+                        <p> active torrents</p>
+                    </div>
+                    <div className="home-torrents-info">
+                        <p style={{ color: "green", marginLeft: "1.5em" }}>
+                            <strong>{cachedTorrents}</strong>
+                        </p>
+                        <p> cached torrents</p>
+                    </div>
+                    <div className="home-torrents-info">
+                        <p style={{ color: "firebrick", marginLeft: "1.5em" }}>
+                            <strong>{inactiveTorrents}</strong>
+                        </p>
+                        <p> inactive torrents</p>
+                    </div>
+                </div>
+                <div className="home-dashboard-update-info">
+                    <p>Last dashboard update: <strong>{lastUpdate}</strong></p>
+                </div>
+            </div>}
+            {isLoading && <div className="home-loader">
+                <PacmanLoader color="#fdff00" size={"50px"} />
+            </div>}
+            {isError && !!toast.error(isError?.info?.detail ? isError?.info?.detail : "Undefined error")}
+            <dialog className="add-torrent-dialog" ref={dialogRef}>
+                <AddTorrentModal close={closeAddTorrentModal} update={updateData} />
+            </dialog>
             <div className="torrents-list">
                 {!isError && localTorrents && localTorrents.map((torrent) =>
                     // Only show torrents that contain current search input
                     torrent.name.toLowerCase().includes(searchQuerry.toLowerCase()) &&
-                    <TorrentCard apiKey={apiKey} torrent={torrent} onDelete={deleteTorrentFromList} key={torrent.id} />
+                    <TorrentCard apiKey={apiKey} torrent={torrent}
+                        onDelete={deleteTorrentFromList} key={torrent.id} />
                 )}
             </div>
         </div>

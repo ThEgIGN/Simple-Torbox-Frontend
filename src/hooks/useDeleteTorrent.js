@@ -24,7 +24,7 @@ const useDeleteTorrent = async (apiKey, torrent_id) => {
 
         return { success: true, detail: data.detail };
     } catch (e) {
-        return { success: false, detail: "Unknown error" };
+        return { success: false, detail: "Unknown error (Probably CORS)" };
     }
 };
 

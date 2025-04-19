@@ -12,8 +12,9 @@ import useFetchUserInfo from "../../hooks/useFetchUserInfo";
 import { toast } from "sonner";
 import formatFileSize from "../../utils/FormatFileSize";
 import formatUserPlan from "../../utils/FormatUserPlan";
+import NavItemNoDropdown from "./NavItemNoDropdown";
 
-function NavBar({ onSearch, changeSort, downloadMagnetLinks }) {
+function NavBar({ onSearch, changeSort, downloadMagnetLinks, showAddTorrentModal }) {
     const location = useLocation();
     const navigate = useNavigate();
     const { mutate } = useSWRConfig();;
@@ -87,9 +88,8 @@ function NavBar({ onSearch, changeSort, downloadMagnetLinks }) {
                 <h2>STF Dashboard</h2>
             </div>
             <ul className="navbar-nav">
-                <NavItem icon={<FontAwesomeIcon icon={"plus"} />}>
-
-                </NavItem>
+                <NavItemNoDropdown icon={<FontAwesomeIcon icon={"plus"} />}
+                    function={showAddTorrentModal} />
                 <NavItem icon={<FontAwesomeIcon icon={"magnifying-glass"} />}>
                     <DropdownMenu>
                         <div className="search-input-wrapper">

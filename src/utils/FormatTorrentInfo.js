@@ -48,7 +48,7 @@ function formatTorrentInfo(torrent) {
                     <p>
                         ↑:{" "}
                         <strong>
-                            {formatFileSize(torrent.download_speed)}/s
+                            {formatFileSize(torrent.upload_speed)}/s
                         </strong>
                     </p>
                     <p>
