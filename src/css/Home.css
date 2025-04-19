@@ -7,3 +7,40 @@
     margin-top: 2em;
     padding: 2em;
 }
+
+.add-torrent-dialog::backdrop {
+    background-color: rgb(0, 0, 0, 0.5);
+}
+
+.home-loader {
+    padding-top: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-dashboard-info-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+}
+
+.home-torrents-info-wrapper {
+    display: flex;
+    text-align: left;
+}
+
+.home-torrents-info {
+    display: flex;
+}
+
+.home-torrents-info p {
+    margin-left: 1em;
+    font-size: 15px;
+}
+
+.home-dashboard-update-info p {
+    margin-right: 2em;
+    font-size: 15px;
+}

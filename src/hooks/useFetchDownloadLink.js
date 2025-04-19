@@ -22,7 +22,7 @@ const useFetchDownloadLink = async (apiKey, torrentId, fileId) => {
 
         return { success: true, error: null, link: data.data };
     } catch (e) {
-        return { success: false, error: "Unknown error", link: null };
+        return { success: false, error: "Unknown error (Probably CORS)", link: null };
     }
 };
 

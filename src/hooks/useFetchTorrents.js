@@ -7,12 +7,11 @@ const useFetchTorrents = (apiKey) => {
     const [bypassCache, setBypassCache] = useState(false);
 
     const fetcher = async (url) => {
-        
         const res = await fetch(`${url}?bypass_cache=${bypassCache}`, {
             headers: {
                 Authorization: "Bearer " + apiKey,
             },
-        }).then(console.log(bypassCache));
+        });
 
         if (!res.ok) {
             const error = new Error(
