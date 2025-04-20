@@ -17,20 +17,26 @@ function TorrentFileCard({ apiKey, torrentId, file, fileIdSorted }) {
 
     async function getDownloadLink() {
         const loadingToastId = toast.loading("Your download link is getting ready...");
-        const { success, error, link } = await useFetchDownloadLink(apiKey, torrentId, file.id);
+        const userIP = localStorage.getItem("userIP");
+        const { success, error, link } = await useFetchDownloadLink(apiKey, torrentId, file.id, userIP);
         if (success) {
-            copyDownloadLink(link, loadingToastId);
+            toast.info("Successfully grabbed link! Please press button to copy it to clipboard.",
+                {
+                    action: { label: "COPY", onClick: () => copyDownloadLink(link, loadingToastId) },
+                    id: loadingToastId,
+                    duration: Infinity,
+                });
         } else {
             toast.error(error, { id: loadingToastId });
         }
     }
 
-    async function copyDownloadLink(link, loadingToastId) {
+    async function copyDownloadLink(link) {
         try {
             await navigator.clipboard.writeText(link);
-            toast.success("Successfully copied download link to the clipboard!", { id: loadingToastId });
+            toast.success("Successfully copied download link to the clipboard!");
         } catch (err) {
-            toast.error("Failed to copy link! Try interacting with page a bit and be sure to keep the tab active while copying.", { id: loadingToastId });
+            toast.error("Failed to copy link!");
         }
     }
 

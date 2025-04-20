@@ -7,7 +7,8 @@ function DropdownMenu(props) {
     const dropdownRef = useContext(DropdownMenuRefContext);
 
     return (
-        <div className="dropdown-menu" ref={dropdownRef} style={props.width && { width: props.width }}>
+        <div className={props.single ? "dropdown-menu-single" : "dropdown-menu"} ref={dropdownRef}
+            style={props.width && { width: props.width }}>
             {props.children && props.children.length > 1 ?
                 props.children.map((component, index) =>
                     !!component.props.header ?

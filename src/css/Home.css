@@ -1,11 +1,23 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100vh;
+}
+
+.torrents-list-wrapper {
+    height: 80%;
+    padding: 1em;
+    padding-top: 0.5em;
+}
+
 .torrents-list {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
     overflow-y: scroll;
-    max-height: 80vh;
-    margin-top: 2em;
-    padding: 2em;
+    max-height: 100%;
+    padding: 1em;
 }
 
 .add-torrent-dialog::backdrop {

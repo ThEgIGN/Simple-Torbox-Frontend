@@ -13,6 +13,7 @@ import { DateTime } from "luxon";
 import NavBar from "../components/navigation/NavBar";
 import downloadMagnetLinksToFile from "../utils/DownloadMagnetLinksToFile";
 import AddTorrentModal from "../components/AddTorrentModal";
+import useFetchUserIP from "../hooks/useFetchUserIP";
 
 function Home() {
     const [searchQuerry, setSearchQuerry] = useState("");
@@ -47,7 +48,14 @@ function Home() {
                 navigate("/");
             }
         }
+        getAndSaveUserIP();
     }, [])
+
+    async function getAndSaveUserIP() {
+        // Save user IP for download links (API uses it to determine closest CDN)
+        const userIP = await useFetchUserIP();
+        localStorage.setItem("userIP", userIP);
+    }
 
     function setSearchTerm(searchTerm) {
         setSearchQuerry(searchTerm);
@@ -161,14 +169,14 @@ function Home() {
             <dialog className="add-torrent-dialog" ref={dialogRef}>
                 <AddTorrentModal close={closeAddTorrentModal} update={updateData} />
             </dialog>
-            <div className="torrents-list">
+            <div className="torrents-list-wrapper"><div className="torrents-list">
                 {!isError && localTorrents && localTorrents.map((torrent) =>
                     // Only show torrents that contain current search input
                     torrent.name.toLowerCase().includes(searchQuerry.toLowerCase()) &&
                     <TorrentCard apiKey={apiKey} torrent={torrent}
                         onDelete={deleteTorrentFromList} key={torrent.id} />
                 )}
-            </div>
+            </div></div>
         </div>
     )
 }

@@ -4,14 +4,16 @@
 }
 
 .search-input {
-    width: 95%;
-    height: 95%;
-    font-size: 15px;
+    padding: 10px;
+    width: 90%;
+    height: 84%;
+    font-size: 17px;
     border: none;
     outline: none;
     border: 2px solid rgba(255, 255, 255, 0.40);
     border-radius: 1em;
     color: rgba(255, 255, 255, 0.87);
+    background-color: rgb(63, 63, 63);
 }
 
 .search-input::placeholder {

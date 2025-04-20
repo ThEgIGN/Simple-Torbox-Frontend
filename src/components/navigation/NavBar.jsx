@@ -53,9 +53,7 @@ function NavBar({ onSearch, changeSort, downloadMagnetLinks, showAddTorrentModal
     }
 
     function updateUserData(data) {
-        // TODO: Remove censoring once done with demo recording
-        // setUserMail(data.email);
-        setUserMail("censored@gmail.com");
+        setUserMail(data.email);
         setUserPlan(formatUserPlan(data.plan));
         setUserDataDownloaded(formatFileSize(data.total_bytes_downloaded));
         setUserDataUploaded(formatFileSize(data.total_bytes_uploaded));
@@ -91,9 +89,10 @@ function NavBar({ onSearch, changeSort, downloadMagnetLinks, showAddTorrentModal
                 <NavItemNoDropdown icon={<FontAwesomeIcon icon={"plus"} />}
                     function={showAddTorrentModal} />
                 <NavItem icon={<FontAwesomeIcon icon={"magnifying-glass"} />}>
-                    <DropdownMenu>
+                    <DropdownMenu single="true">
                         <div className="search-input-wrapper">
                             <input
+                                autoFocus
                                 type="text"
                                 placeholder="Search for your torrents..."
                                 className="search-input"
