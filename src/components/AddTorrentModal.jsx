@@ -9,6 +9,7 @@ function AddTorrentModal({ close, update }) {
     const [isLoading, setIsLoading] = useState(false);
     const [loadingProcessMessage, setLoadingProcessMessage] = useState("");
     const [loadingResponseMessage, setLoadingResponseMessage] = useState("");
+    const [countedMagnetsTextColor, setCountedMagnetsTextColor] = useState("rgba(255, 255, 255, 0.87)");
     const insideDialogRef = useRef();
 
     // g means to get all occurences of pattern, i means case-insensitive
@@ -26,7 +27,10 @@ function AddTorrentModal({ close, update }) {
     }, [insideDialogRef])
 
     async function handleAddTorrent() {
-        if (!magnetLinks || numberOfLinks === 0) return;
+        if (!magnetLinks || numberOfLinks === 0) {
+            flashCountedMagnetLinks();
+            return;
+        }
         const apiKey = localStorage.getItem("torboxApiKey");
         setIsLoading(true);
         setLoadingProcessMessage("Processing first magnet link");
@@ -36,6 +40,14 @@ function AddTorrentModal({ close, update }) {
         await update();
         resetToDefaultValues();
         close();
+    }
+
+    const waitInMiliseconds = miliSecs => new Promise(resolve => setTimeout(resolve, miliSecs));
+
+    async function flashCountedMagnetLinks() {
+        setCountedMagnetsTextColor("crimson");
+        await waitInMiliseconds(600);
+        setCountedMagnetsTextColor("rgba(255, 255, 255, 0.87)");
     }
 
     function resetToDefaultValues() {
@@ -72,7 +84,9 @@ function AddTorrentModal({ close, update }) {
                         onChange={(e) => setMagnetLinks(e.target.value)}
                     />
                 </div>
-                    <div className="add-torrent-counter"><p>{`Counted magnet links: ${numberOfLinks}`}</p></div>
+                    <div className="add-torrent-counter" style={{ color: countedMagnetsTextColor }} >
+                        <p>{`Counted magnet links: ${numberOfLinks}`}</p>
+                    </div>
                     <div className="add-torrent-buttons-wrapper">
                         <div className="button-wrapper">
                             <button className="add-torrents-button" onClick={() => handleAddTorrent()}>
@@ -91,8 +105,9 @@ function AddTorrentModal({ close, update }) {
                     </div>
                     <div className="add-torrent-api-response">
                         <h2>{loadingResponseMessage}</h2>
-                    </div></>}
-        </div>
+                    </div></>
+            }
+        </div >
     );
 }
 

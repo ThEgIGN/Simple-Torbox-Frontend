@@ -69,6 +69,7 @@
 }
 
 .dropdown-menu {
+    z-index: 9999;
     position: absolute;
     top: 58px;
     width: 300px;
@@ -77,6 +78,19 @@
     border: var(--border);
     border-radius: var(--border-radius);
     padding: 1rem;
+    overflow: hidden;
+}
+
+.dropdown-menu-single {
+    z-index: 9999;
+    position: absolute;
+    top: 58px;
+    width: 300px;
+    transform: translateX(-45%);
+    background-color: var(--bg);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    height: 70px;
     overflow: hidden;
 }
 
