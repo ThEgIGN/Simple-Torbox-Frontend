@@ -13,7 +13,7 @@ function AddTorrentModal({ close, update }) {
     const insideDialogRef = useRef();
 
     // g means to get all occurences of pattern, i means case-insensitive
-    const magnetRegex = /magnet/gi;
+    const magnetRegex = /magnet:\?xt=urn:btih:/gi;
 
     useEffect(() => {
         function addTorrentHandler(e) {
