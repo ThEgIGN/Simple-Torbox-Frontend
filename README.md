@@ -1,4 +1,6 @@
-### Important note: The application uses [thingproxy](https://github.com/Freeboard/thingproxy) for all API calls because of CORS. I highly recommend setting up a local proxy for security reasons and reliability (sometimes thingproxy bugs out, and you might get an "Unknown error (Probably CORS)" error)
+## Important note: I'm not currently working on this project. This small project was made as a showcase of my React knowledge. My intention was never for this to become an alternative for Torbox. It was made purely for fun. 😊
+
+### Important note 2: The application uses [thingproxy](https://github.com/Freeboard/thingproxy) for all API calls because of CORS. I highly recommend setting up a local proxy for security reasons and reliability (sometimes thingproxy bugs out, and you might get an "Unknown error (Probably CORS)" error)
 
 Simple frontend for Torbox made in React, using Torbox API. Currently, it only supports torrents. (No queued torrents though)
 
